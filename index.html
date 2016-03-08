@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <title>Glycopeptide heatmap</title>
+
+    <!-- Imports polyfill -->
+    <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+
+    <!-- Imports custom element -->
+    <link rel="import" href="glycopeptide-heatmap.html">
+
+</head>
+<body>
+
+    <!-- Test of glycopeptide-heatmap element -->
+    <glycopeptide-heatmap data='
+    {"map": [{"peptide": 1, "glycan": 2, "value": 0.1, "mass": 3000},
+            {"peptide": 2, "glycan": 1, "value": 0.2, "mass": 3001},
+            {"peptide": 3, "glycan": 3, "value": 0.3, "mass": 3002},
+            {"peptide": 5, "glycan": 4, "value": 0.4, "mass": 3003},
+            {"peptide": 6, "glycan": 6, "value": 0.6, "mass": 3005}],
+     "peptides": ["peptide-1", "peptide-3", "peptide-2", "peptide-4", "peptide-5", "peptide-6"],
+     "glycans": ["glycan-1", "glycan-3", "glycan-2", "glycan-6", "glycan-4", "glycan-5"]}'>
+    </glycopeptide-heatmap>
+
+</body>
+</html>

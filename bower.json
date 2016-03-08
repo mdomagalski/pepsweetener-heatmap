@@ -1,0 +1,19 @@
+{
+  "name": "glycopeptide-heatmap",
+  "version": "0.0.1",
+  "description": "Glycopeptide heatmap render",
+  "license": "MIT",
+  "main": "glycopeptide-heatmap.html",
+  "keywords": [
+    "polymer",
+    "web-components"
+  ],
+  "ignore": [
+    "**/.*",
+    "bower_components"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.4",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.1.3"
+  }
+}

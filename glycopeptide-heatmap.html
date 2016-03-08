@@ -1,0 +1,73 @@
+<!-- Imports polymer -->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+
+<link rel="stylesheet" type="text/css" href="glycopeptide-heatmap.css">
+
+<!-- Import d3 and heatmap generating script -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="http://benschmidt.org/colorbar/colorbar.js" charset="utf-8"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+<!-- Defines element markup -->
+<dom-module id="glycopeptide-heatmap">
+    <template>
+        <style is="sort-style">
+            paper-dropdown-menu {
+                --paper-input-container-label: {
+                    color: white;
+                    background-color: var(--paper-green-500);
+                    font-style: italic;
+                    text-align: center;
+                    font-weight: bold;
+                };
+                --paper-input-container-input: {
+                    color: var(--paper-indigo-500);
+                    font-style: normal;
+                    font-family: serif;
+                    text-transform: uppercase;
+                };
+                /* no underline */
+                --paper-input-container-underline: {
+                    display: none;
+                };
+            }
+
+            paper-item {
+                display: block;
+                position: relative;
+                min-height: 32px;
+                padding: 0px 16px;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -ms-flex-direction: row;
+                -webkit-flex-direction: row;
+                flex-direction: row;
+                -ms-flex-align: center;
+                -webkit-align-items: center;
+                align-items: center;
+                font-family: 'Roboto', 'Noto', sans-serif;
+                -webkit-font-smoothing: antialiased;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 24px;
+            }
+        </style>
+        <div id="description"></div>
+        <paper-dropdown-menu label="Sort by" class="sort">
+            <paper-menu class="dropdown-content" selected="{{sorting}}" attr-for-selected="value">
+                <paper-item value="sequence&composition">
+                    Peptide sequence and glycan composition
+                </paper-item>
+            </paper-menu>
+        </paper-dropdown-menu>
+        <div id="chart"></div>
+        <b>Tile colours correspond to the matching accuracy (ppm)</b>
+    </template>
+    <!-- Registers custom element -->
+    <script src="glycopeptide-heatmap.js"></script>
+</dom-module>

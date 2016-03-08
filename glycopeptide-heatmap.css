@@ -1,0 +1,174 @@
+html {
+    padding: 3% 5%;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+rect {
+    stroke: silver;
+    stroke-width: 0px;
+    margin: 2px;
+}
+
+rect:hover {
+    stroke-width: 3px;
+}
+
+rect.cell-border {
+    stroke: #eee;
+    stroke-width:1px;
+}
+
+rect.cell-selected {
+    stroke: rgb(51,102,153);
+    stroke-width:0.5px;
+}
+
+rect.cell-hover {
+    stroke: #F00;
+    stroke-width:1px;
+}
+
+text.mono {
+    font-size: 10pt;
+    font-family: sans-serif;
+}
+
+text.axis {
+    fill: #000;
+}
+
+text.barTitle {
+    margin: 0;
+    padding: 0;
+    font-size: 14pt;
+}
+
+text.text-highlight {
+    fill: #c00;
+    font-weight: 600;
+}
+
+text.text-hover {
+    fill: #00C;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    color: black;
+    border-radius: 5px;
+}
+
+#submit {
+    font-size: 18px;
+}
+
+.alert {
+    font-size: 16px;
+}
+
+#searchResults {
+    font-size: 14px;
+    margin: 1em 3em;
+}
+
+#searchResults textarea{
+    width: 25em;
+}
+
+input#mass {
+    width: 150px;
+}
+
+input#tolerance {
+    width: 130px;
+}
+
+#chart {
+    margin-top: 2em;
+}
+#tooltip, .d3-tip {
+    position: absolute;
+    height: auto;
+    padding: 10px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+#tooltip.hidden {
+    display: none;
+}
+
+#tooltip p {
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.value span {
+    display: block;
+}
+
+.form-inline {
+    margin: 1em 3em;
+}
+
+.form-group {
+    margin: 1em 3em;
+}
+
+.form-control {
+    max-width: 25em;
+}
+
+.fixed-width {
+    width: 100px;
+}
+
+#parentFilterList {
+    margin-left: 4em;
+    margin-bottom: 2em;
+    display: flex;
+}
+
+#proteinFilterList {
+    margin-right: 2em;
+}
+
+#goFilterList {
+    flex: 1;
+}
+
+.panel-heading {
+    font-size: 18px;
+}
+
+.panel-heading a:after {
+    font-family:'Glyphicons Halflings';
+    content:"\e114";
+    float: right;
+    color: grey;
+}
+.panel-heading a.collapsed:after {
+    content:"\e080";
+}
