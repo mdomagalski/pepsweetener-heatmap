@@ -17,23 +17,24 @@ Polymer({
         }
     },
     attached: function() {
+        if(this.data){
+            var gridSize = this.gridSize,
+                width = (this.gridSize*this.data.glycans.length),
+                height = (this.gridSize*this.data.peptides.length)+30;
 
-        var gridSize = this.gridSize,
-            width = (this.gridSize*this.data.glycans.length),
-            height = (this.gridSize*this.data.peptides.length)+30;
+            //var svg = d3.selectAll("svg").remove();
 
-        var svg = d3.selectAll("svg").remove();
+            var svg = d3.select("#chart").append("svg")
+                .attr("width", width + this.margin.left + this.margin.right)
+                .attr("height", height + this.margin.top + this.margin.bottom)
+                .append("g").attr("id", "main")
+                .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
-        var svg = d3.select("#chart").append("svg")
-            .attr("width", width + this.margin.left + this.margin.right)
-            .attr("height", height + this.margin.top + this.margin.bottom)
-            .append("g").attr("id", "main")
-            .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
-
-        this.createRowLabels();
-        this.createColumnLabels();
-        this.createCardsAndBar();
-        this.formatChartDescription();
+            this.createRowLabels();
+            this.createColumnLabels();
+            this.createCardsAndBar();
+            this.formatChartDescription();
+        }
     },
     _dataChanged: function(newValue) {
         if (newValue){
@@ -52,7 +53,6 @@ Polymer({
             var chartDescDiv = document.getElementById("description");
             chartDescDiv.innerHTML="</br><strong>"+dataPoints.length
                 +"</strong> theoretical N-glycopeptide combinations were found</br>";
-            //$("#info").empty();
         }else{
             var nothingFound = document.createElement('strong');
             nothingFound.textContent("Nothing found!");
@@ -176,6 +176,9 @@ Polymer({
         var pointer = d3.selectAll("#colorbar").call(colorbar);
 
         cards.on("mouseover",function(d) {pointer.pointTo(d[whichValue])});
+    },
+    ajaxPeptideToProtein: function() {
+      // generate ajax request that will return uniprot ID for peptide
     },
     sortBySequenceAndComposition: function(){
 
