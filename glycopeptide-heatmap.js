@@ -10,19 +10,19 @@ Polymer({
             value: 14},
         margin: {
             type: Array,
-            value: { top: 100, right: 100, bottom: 50, left: 100}},
+            value: { top: 200, right: 100, bottom: 50, left: 200}},
         sorting: {
             type: String,
             observer: '_sortObserver'
         }
     },
     attached: function() {
-        if(this.data){
+        if(this.data && this.data.map.length>0){
             var gridSize = this.gridSize,
                 width = (this.gridSize*this.data.glycans.length),
                 height = (this.gridSize*this.data.peptides.length)+30;
 
-            //var svg = d3.selectAll("svg").remove();
+            var svg = d3.selectAll("svg").remove();
 
             var svg = d3.select("#chart").append("svg")
                 .attr("width", width + this.margin.left + this.margin.right)
@@ -34,12 +34,16 @@ Polymer({
             this.createColumnLabels();
             this.createCardsAndBar();
             this.formatChartDescription();
+        }else if(this.data.map.length==0){
+            this.$.chart.innerHTML = "Nothing found";
         }
     },
     _dataChanged: function(newValue) {
         if (newValue){
             var svg = d3.select("svg").remove();
             this.attached();
+            this.$.sorting.setAttribute("class", "");
+            this.$.comment.setAttribute("class", "");
         }
     },
     _sortObserver : function(value) {
@@ -61,7 +65,7 @@ Polymer({
     },
     createRowLabels: function(){
 
-        var svg = d3.selectAll("svg").selectAll("g");//.select("#main");
+        var svg = d3.selectAll("svg").selectAll("g");
         var peptides = this.data.peptides;
         var gridSize = this.gridSize;
 
@@ -176,9 +180,6 @@ Polymer({
         var pointer = d3.selectAll("#colorbar").call(colorbar);
 
         cards.on("mouseover",function(d) {pointer.pointTo(d[whichValue])});
-    },
-    ajaxPeptideToProtein: function() {
-      // generate ajax request that will return uniprot ID for peptide
     },
     sortBySequenceAndComposition: function(){
 
