@@ -1,6 +1,9 @@
 body {
     margin: 0;
 }
+svg {
+    overflow: scroll;
+}
 .axis path,
 .axis line {
     fill: none;

@@ -10,7 +10,7 @@ Polymer({
             value: 14},
         margin: {
             type: Array,
-            value: { top: 200, right: 100, bottom: 50, left: 200}},
+            value: { top: 300, right: 50, bottom: 20, left: 300}},
         sorting: {
             type: String,
             observer: '_sortObserver'
@@ -33,17 +33,13 @@ Polymer({
             this.createRowLabels();
             this.createColumnLabels();
             this.createCardsAndBar();
-            this.formatChartDescription();
-        }else if(this.data.map.length==0){
-            this.$.chart.innerHTML = "Nothing found";
         }
+        this.formatChartDescription();
     },
     _dataChanged: function(newValue) {
         if (newValue){
             var svg = d3.select("svg").remove();
             this.attached();
-            this.$.sorting.setAttribute("class", "");
-            this.$.comment.setAttribute("class", "");
         }
     },
     _sortObserver : function(value) {
@@ -52,15 +48,19 @@ Polymer({
         }
     },
     formatChartDescription: function(){
-        var dataPoints = this.data.map;
-        if(dataPoints.length!=0){
-            var chartDescDiv = document.getElementById("description");
-            chartDescDiv.innerHTML="</br><strong>"+dataPoints.length
-                +"</strong> theoretical N-glycopeptide combinations were found</br>";
-        }else{
-            var nothingFound = document.createElement('strong');
-            nothingFound.textContent("Nothing found!");
-            chartDescDiv.appendChild(nothingFound);
+        var chartDescDiv = document.getElementById("description");
+        if(this.data){
+            if(this.data.map.length!=0){
+                chartDescDiv.innerHTML="<b>"+this.data.map.length
+                    +"</b> theoretical glycan + peptide combinations were found";
+                this.$.sorting.setAttribute("class", "sort");
+                this.$.comment.setAttribute("class", "");
+            }else{
+                chartDescDiv.innerHTML="<h3>Nothing found!</h3>";
+                this.$.sorting.setAttribute("class", "sort hidden");
+                this.$.comment.setAttribute("class", "hidden");
+            }
+
         }
     },
     createRowLabels: function(){
@@ -117,16 +117,16 @@ Polymer({
         var colorScale = d3.scale.linear().domain(d3.extent(range)).range(["green", "yellow"]);
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
-        colorbar = Colorbar()
-            .origin([this.margin.left+width+this.margin.right-30, this.margin.top-70])
-            .scale(colorScale).barlength(height+50).thickness(14)
+        colorbar = Colorbar(0)
+            .origin([30, 10])
+            .scale(colorScale).barlength(this.margin.top-20).thickness(14)
             .orient("vertical")
-            .title("ppm accuracy");
+            .title("Match accuracy (ppm)");
 
         bar = d3.selectAll("svg").append("g").attr("id", "colorbar");
         d3.selectAll(".colorbar").append("text").text("match accuracy")
             .attr('class', 'barTitle');
-        $("#legend").append('ppm accuracy');
+        $("#legend").append('Match accuracy (ppm)');
 
 
         var svg = d3.select("#chart").select("svg").select("#main");
@@ -136,6 +136,7 @@ Polymer({
 
         cards.append("title");
 
+        var self = this;
         cards.enter().append("rect")
             .attr("x", function(d) { return (d.glycan-1)*gridSize})
             .attr("y", function(d) { return (d.peptide-1)*gridSize; })
@@ -156,8 +157,7 @@ Polymer({
                     .style("left", (d3.event.pageX+10) + "px")
                     .style("top", (d3.event.pageY-10) + "px")
                     .select("#value")
-                    .text("works");
-                //.text(peptides[d.peptide-1]+" + "+glycans[d.glycan-1]+" ("+Math.round(d.mass,4)+" Da)");
+                    .text(self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+Math.round(d.mass,4)+" Da)");
                 //Show the tooltip
                 d3.select("#tooltip").classed("hidden", false);
             })
