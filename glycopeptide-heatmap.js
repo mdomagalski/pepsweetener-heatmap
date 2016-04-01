@@ -22,7 +22,7 @@ Polymer({
                 width = (this.gridSize*this.data.glycans.length),
                 height = (this.gridSize*this.data.peptides.length)+30;
 
-            var svg = d3.selectAll("svg").remove();
+            var svg = d3.select("#chart").select("svg").remove();
 
             var svg = d3.select("#chart").append("svg")
                 .attr("width", width + this.margin.left + this.margin.right)
@@ -38,7 +38,7 @@ Polymer({
     },
     _dataChanged: function(newValue) {
         if (newValue){
-            var svg = d3.select("svg").remove();
+            var svg = d3.select("#chart").select("svg").remove();
             this.attached();
         }
     },
@@ -65,7 +65,7 @@ Polymer({
     },
     createRowLabels: function(){
 
-        var svg = d3.selectAll("svg").selectAll("g");
+        var svg = d3.select("#chart").select("svg").selectAll("g");
         var peptides = this.data.peptides;
         var gridSize = this.gridSize;
 
@@ -92,7 +92,7 @@ Polymer({
             .on('mouseout', tip.hide);
     },
     createColumnLabels: function(){
-        var svg = d3.selectAll("svg").selectAll("g");//.select("#main");
+        var svg = d3.select("#chart").select("svg").selectAll("g");
         var glycans = this.data.glycans;
         var gridSize = this.gridSize;
 
@@ -123,8 +123,8 @@ Polymer({
             .orient("vertical")
             .title("Match accuracy (ppm)");
 
-        bar = d3.selectAll("svg").append("g").attr("id", "colorbar");
-        d3.selectAll(".colorbar").append("text").text("match accuracy")
+        bar = d3.select("#chart").select("svg").append("g").attr("id", "colorbar");
+        d3.select(".colorbar").append("text").text("match accuracy")
             .attr('class', 'barTitle');
         $("#legend").append('Match accuracy (ppm)');
 
@@ -177,7 +177,7 @@ Polymer({
 
         cards.exit().remove();
 
-        var pointer = d3.selectAll("#colorbar").call(colorbar);
+        var pointer = d3.select("#colorbar").call(colorbar);
 
         cards.on("mouseover",function(d) {pointer.pointTo(d[whichValue])});
     },
@@ -187,7 +187,7 @@ Polymer({
         // it will destroy the chart
         var gridSize = this.gridSize;
 
-        var svg = d3.selectAll("svg");
+        var svg = d3.select("#chart").select("svg");
         var t = svg.transition().duration(1000);
 
         var sortedGlycans = this.data.glycans.slice(0).sort();
