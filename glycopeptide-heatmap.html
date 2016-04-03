@@ -1,5 +1,6 @@
 <!-- Imports polymer -->
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
@@ -7,10 +8,9 @@
 <link rel="stylesheet" type="text/css" href="glycopeptide-heatmap.css">
 
 <!-- Import d3 and heatmap generating script -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://d3js.org/d3.v3.js"></script>
-<script src="http://benschmidt.org/colorbar/colorbar.js" charset="utf-8"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="../d3/d3.js"></script>
+<script src="../d3-tip/index.js"></script>
+<script src="colorbar.js"></script>
 
 <!-- Defines element markup -->
 <dom-module id="glycopeptide-heatmap">
@@ -60,6 +60,14 @@
                 display: none;
             }
         </style>
+        <iron-ajax
+            id="ajax"
+            method="GET"
+            url="http://localhost:8080/proteins/"
+            handle-as="json"
+            on-response="handleResponse"
+            debounce-duration="300">
+        </iron-ajax>
         <paper-dropdown-menu id="sorting" label="Sort by" class="sort hidden">
             <paper-menu class="dropdown-content" selected="{{sorting}}" attr-for-selected="value">
                 <paper-item value="sequence&composition">
@@ -69,6 +77,9 @@
         </paper-dropdown-menu>
         <div id="comment" class="hidden">Match accuracy (ppm)</div>
         <div id="chart"></div>
+        <div id="tooltip" class="hidden">
+            <div id="value"></div>
+        </div>
         <div id="description"></div>
     </template>
     <!-- Registers custom element -->

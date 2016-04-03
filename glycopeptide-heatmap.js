@@ -69,12 +69,13 @@ Polymer({
         var peptides = this.data.peptides;
         var gridSize = this.gridSize;
 
+        var self = this;
         var tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                $(".d3-tip").append("mock");
-                //return ajaxPeptide2Protein(d);
+                self.$.ajax.url = "http://localhost:8080/proteins/"+d;
+                self.$.ajax.generateRequest();
             });
         svg.call(tip);
 
@@ -118,16 +119,14 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([30, 10])
-            .scale(colorScale).barlength(this.margin.top-20).thickness(14)
-            .orient("vertical")
+            .origin([80, 100])
+            .scale(colorScale).barlength(this.margin.left-100).thickness(14)
+            .orient("horizontal")
             .title("Match accuracy (ppm)");
 
         bar = d3.select("#chart").select("svg").append("g").attr("id", "colorbar");
         d3.select(".colorbar").append("text").text("match accuracy")
             .attr('class', 'barTitle');
-        $("#legend").append('Match accuracy (ppm)');
-
 
         var svg = d3.select("#chart").select("svg").select("#main");
         var cards = svg.selectAll(".glycopeptide")
@@ -152,6 +151,7 @@ Polymer({
                 d3.selectAll(".peptideLabel").classed("text-highlight",function(r,ri){ return ri==(d.peptide-1);});
                 d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
 
+                //console.log(self.data.peptides[d.peptide-1]);
                 //Update the tooltip position and value
                 d3.select("#tooltip")
                     .style("left", (d3.event.pageX+10) + "px")
@@ -194,7 +194,7 @@ Polymer({
         idx =0;
         for (var i=0; i<this.data.glycans.length; i++){
             glycan = this.data.glycans[i];
-            sIdx = jQuery.inArray(glycan, sortedGlycans);
+            sIdx = this.inArray(glycan, sortedGlycans);
             var shift = sIdx-idx;
             t.selectAll("rect.cc"+idx)
                 .attr("x", function(d, i) {
@@ -211,7 +211,7 @@ Polymer({
         idx =0;
         for (var i=0; i<this.data.peptides.length; i++){
             peptide = this.data.peptides[i];
-            sIdx = jQuery.inArray(peptide, sortedPeptides);
+            sIdx = this.inArray(peptide, sortedPeptides);
             t.selectAll(".cr"+idx)
                 .attr("y", function(d,i) {
                     return sIdx * gridSize;
@@ -225,6 +225,23 @@ Polymer({
                 });
             idx+=1;
         }
+    },
+    handleResponse: function(request) {
+        response = request.detail.response;
+        console.log(response);
+    },
+    inArray: function( elem, array ) {
+        if ( array.indexOf ) {
+            return array.indexOf( elem );
+        }
+
+        for ( var i = 0, length = array.length; i < length; i++ ) {
+            if ( array[ i ] === elem ) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
 });
