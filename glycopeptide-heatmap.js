@@ -10,7 +10,7 @@ Polymer({
             value: 14},
         margin: {
             type: Array,
-            value: { top: 300, right: 50, bottom: 20, left: 300}},
+            value: { top: 400, right: 50, bottom: 20, left: 400}},
         sorting: {
             type: String,
             observer: '_sortObserver'
@@ -39,6 +39,7 @@ Polymer({
     _dataChanged: function(newValue) {
         if (newValue){
             var svg = d3.select("#chart").select("svg").remove();
+            this.$.sorting.querySelector('paper-menu').selected=0;
             this.attached();
         }
     },
@@ -120,8 +121,8 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([80, 200])
-            .scale(colorScale).barlength(this.margin.left-100).thickness(14)
+            .origin([180, 300])
+            .scale(colorScale).barlength(this.margin.left-200).thickness(14)
             .orient("horizontal")
             .title("Match accuracy (ppm)");
 
