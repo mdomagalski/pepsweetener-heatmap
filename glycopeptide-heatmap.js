@@ -51,8 +51,8 @@ Polymer({
         var chartDescDiv = document.getElementById("description");
         if(this.data){
             if(this.data.map.length!=0){
-                chartDescDiv.innerHTML="<b>"+this.data.map.length
-                    +"</b> theoretical glycan + peptide combinations were found";
+                chartDescDiv.innerHTML="<h3><b>"+this.data.map.length
+                    +"</b> theoretical peptide + glycan combinations were found</h3>";
                 this.$.sorting.setAttribute("class", "sort");
                 this.$.comment.setAttribute("class", "");
             }else{
@@ -120,7 +120,7 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([80, 100])
+            .origin([80, 200])
             .scale(colorScale).barlength(this.margin.left-100).thickness(14)
             .orient("horizontal")
             .title("Match accuracy (ppm)");
