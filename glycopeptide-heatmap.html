@@ -66,6 +66,7 @@
             url="http://localhost:8080/proteins/"
             handle-as="json"
             on-response="handleResponse"
+            on-error="handleErrorResponse"
             debounce-duration="300">
         </iron-ajax>
         <paper-dropdown-menu id="sorting" label="Sort by" class="sort hidden">

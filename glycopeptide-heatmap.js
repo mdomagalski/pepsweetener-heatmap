@@ -65,7 +65,7 @@ Polymer({
     },
     createRowLabels: function(){
 
-        var svg = d3.select("#chart").select("svg").selectAll("g");
+        var svg = d3.select("#chart").select("svg").select("g");
         var peptides = this.data.peptides;
         var gridSize = this.gridSize;
 
@@ -76,6 +76,7 @@ Polymer({
             .html(function(d) {
                 self.$.ajax.url = "http://localhost:8080/proteins/"+d;
                 self.$.ajax.generateRequest();
+                return self.proteins;
             });
         svg.call(tip);
 
@@ -228,7 +229,10 @@ Polymer({
     },
     handleResponse: function(request) {
         response = request.detail.response;
-        console.log(response);
+        this.proteins = response.map;
+    },
+    handleErrorResponse: function(request) {
+        this.proteins = '';
     },
     inArray: function( elem, array ) {
         if ( array.indexOf ) {
