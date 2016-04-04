@@ -22,9 +22,9 @@ Polymer({
                 width = (this.gridSize*this.data.glycans.length),
                 height = (this.gridSize*this.data.peptides.length)+30;
 
-            var svg = d3.select("#chart").select("svg").remove();
+            var svg = d3.select(this).select("#chart").select("svg").remove();
 
-            var svg = d3.select("#chart").append("svg")
+            var svg = d3.select(this).select("#chart").append("svg")
                 .attr("width", width + this.margin.left + this.margin.right)
                 .attr("height", height + this.margin.top + this.margin.bottom)
                 .append("g").attr("id", "main")
@@ -38,7 +38,7 @@ Polymer({
     },
     _dataChanged: function(newValue) {
         if (newValue){
-            var svg = d3.select("#chart").select("svg").remove();
+            var svg = d3.select(this).select("#chart").select("svg").remove();
             this.$.sorting.querySelector('paper-menu').selected=0;
             this.attached();
         }
@@ -49,7 +49,7 @@ Polymer({
         }
     },
     formatChartDescription: function(){
-        var chartDescDiv = document.getElementById("description");
+        var chartDescDiv = this.$.description;
         if(this.data){
             if(this.data.map.length!=0){
                 chartDescDiv.innerHTML="<h3><b>"+this.data.map.length
@@ -66,7 +66,7 @@ Polymer({
     },
     createRowLabels: function(){
 
-        var svg = d3.select("#chart").select("svg").select("g");
+        var svg = d3.select(this).select("#chart").select("svg").select("g");
         var peptides = this.data.peptides;
         var gridSize = this.gridSize;
 
@@ -95,7 +95,7 @@ Polymer({
             .on('mouseout', tip.hide);
     },
     createColumnLabels: function(){
-        var svg = d3.select("#chart").select("svg").selectAll("g");
+        var svg = d3.select(this).select("#chart").select("svg").selectAll("g");
         var glycans = this.data.glycans;
         var gridSize = this.gridSize;
 
@@ -126,11 +126,9 @@ Polymer({
             .orient("horizontal")
             .title("Match accuracy (ppm)");
 
-        bar = d3.select("#chart").select("svg").append("g").attr("id", "colorbar");
-        d3.select(".colorbar").append("text").text("match accuracy")
-            .attr('class', 'barTitle');
+        bar = d3.select(this).select("#chart").select("svg").append("g").attr("id", "colorbar");
 
-        var svg = d3.select("#chart").select("svg").select("#main");
+        var svg = d3.select(this).select("#chart").select("svg").select("#main");
         var cards = svg.selectAll(".glycopeptide")
             .data(this.data.map, function(d) {return d.peptide+':'+d.glycan;});
         var gridSize = this.gridSize;
@@ -153,21 +151,20 @@ Polymer({
                 d3.selectAll(".peptideLabel").classed("text-highlight",function(r,ri){ return ri==(d.peptide-1);});
                 d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
 
-                //console.log(self.data.peptides[d.peptide-1]);
                 //Update the tooltip position and value
-                d3.select("#tooltip")
+                d3.select(self).select("#tooltip")
                     .style("left", (d3.event.pageX+10) + "px")
                     .style("top", (d3.event.pageY-10) + "px")
                     .select("#value")
                     .text(self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+Math.round(d.mass,4)+" Da)");
                 //Show the tooltip
-                d3.select("#tooltip").classed("hidden", false);
+                d3.select(self).select("#tooltip").classed("hidden", false);
             })
             .on("mouseout", function(){
                 d3.select(this).classed("cell-hover",false);
                 d3.selectAll(".peptideLabel").classed("text-highlight",false);
                 d3.selectAll(".glycanLabel").classed("text-highlight",false);
-                d3.select("#tooltip").classed("hidden", true);
+                d3.select(self).select("#tooltip").classed("hidden", true);
             });
 
         var whichValue = "value"
@@ -179,7 +176,7 @@ Polymer({
 
         cards.exit().remove();
 
-        var pointer = d3.select("#colorbar").call(colorbar);
+        var pointer = d3.select(this).select("#colorbar").call(colorbar);
 
         cards.on("mouseover",function(d) {pointer.pointTo(d[whichValue])});
     },
@@ -189,7 +186,7 @@ Polymer({
         // it will destroy the chart
         var gridSize = this.gridSize;
 
-        var svg = d3.select("#chart").select("svg");
+        var svg = d3.select(this).select("#chart").select("svg");
         var t = svg.transition().duration(1000);
 
         var sortedGlycans = this.data.glycans.slice(0).sort();
