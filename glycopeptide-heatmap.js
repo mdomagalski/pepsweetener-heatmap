@@ -7,10 +7,12 @@ Polymer({
         },
         gridSize: {
             type: Number,
-            value: 14},
+            value: 14
+        },
         margin: {
             type: Array,
-            value: { top: 400, right: 50, bottom: 20, left: 400}},
+            value: { top: 400, right: 50, bottom: 20, left: 400}
+        },
         sorting: {
             type: String,
             observer: '_sortObserver'
@@ -152,11 +154,12 @@ Polymer({
                 d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
 
                 //Update the tooltip position and value
+                d.mass = Number(d.mass);
                 d3.select(self).select("#tooltip")
                     .style("left", (d3.event.pageX+10) + "px")
                     .style("top", (d3.event.pageY-10) + "px")
                     .select("#value")
-                    .text(self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+Math.round(d.mass,4)+" Da)");
+                    .text(self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)");
                 //Show the tooltip
                 d3.select(self).select("#tooltip").classed("hidden", false);
             })
