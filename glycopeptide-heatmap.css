@@ -116,7 +116,7 @@ input#tolerance {
     pointer-events: none;
 }
 
-#tooltip.hidden {
+.hidden {
     display: none;
 }
 
