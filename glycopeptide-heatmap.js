@@ -165,9 +165,6 @@ Polymer({
             })
             .on("mouseout", function(){
                 d3.select(this).classed("cell-hover",false);
-                d3.selectAll(".peptideLabel").classed("text-highlight",false);
-                d3.selectAll(".glycanLabel").classed("text-highlight",false);
-                d3.select(self).select("#tooltip").classed("hidden", true);
             });
 
         var whichValue = "value"
