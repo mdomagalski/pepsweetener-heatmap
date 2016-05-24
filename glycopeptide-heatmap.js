@@ -157,12 +157,13 @@ Polymer({
                 d3.select(this).classed("cell-hover",true);
                 d3.selectAll(".peptideLabel").classed("text-highlight",function(r,ri){ return ri==(d.peptide-1);});
                 d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
-
+                scrollTop  = document.documentElement.scrollTop || document.body.scrollTop,
+                scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
                 //Update the tooltip position and value
                 d.mass = Number(d.mass);
                 d3.select(self).select(".tooltip")
-                    .style("left", (d3.event.clientX+10) + "px")
-                    .style("top", (d3.event.clientY-10) + "px")
+                    .style("left", (d3.event.pageX+scrollTop+10) + "px")
+                    .style("top", (d3.event.pageY+scrollLeft-10) + "px")
                     .select("#value")
                     .text(self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)");
                 //Show the tooltip
