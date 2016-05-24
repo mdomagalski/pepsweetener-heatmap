@@ -57,9 +57,6 @@
                 line-height: 24px;
             }
 
-            .hidden {
-                display: none;
-            }
             paper-dropdown-menu {
                 width: 100%;
             }
@@ -75,6 +72,31 @@
                 margin-right: 100px;
             }
 
+            div.tooltip {
+                position: absolute;
+                height: auto;
+                padding: 10px;
+                background: rgba(255, 255, 255, 1);
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+                -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+                -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+                box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+                pointer-events: none;
+                line-height: 1;
+            }
+
+            .tooltip p {
+                margin: 0;
+                font-family: sans-serif;
+                font-size: 12px;
+                line-height: 20px;
+            }
+
+            .hidden {
+                display: none;
+            }
         </style>
         <iron-ajax
             id="ajax"
@@ -93,12 +115,13 @@
                         Peptide sequence and glycan composition
                     </paper-item>
                 </paper-menu>
-            </paper-dropdown-menu></div>
+            </paper-dropdown-menu>
+        </div>
         <div id="comment" class="hidden" style="position: absolute; margin-top: 280px; margin-left:190px;">
             Match accuracy (ppm)
         </div>
         <div id="chart"></div>
-        <div id="tooltip" class="hidden">
+        <div class="tooltip hidden">
             <div id="value"></div>
         </div>
     </template>

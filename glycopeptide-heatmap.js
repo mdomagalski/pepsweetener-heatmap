@@ -155,13 +155,13 @@ Polymer({
 
                 //Update the tooltip position and value
                 d.mass = Number(d.mass);
-                d3.select(self).select("#tooltip")
+                d3.select(self).select(".tooltip")
                     .style("left", (d3.event.pageX+10) + "px")
                     .style("top", (d3.event.pageY-10) + "px")
                     .select("#value")
                     .text(self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)");
                 //Show the tooltip
-                d3.select(self).select("#tooltip").classed("hidden", false);
+                d3.select(self).select(".tooltip").classed("hidden", false);
             })
             .on("mouseout", function(){
                 d3.select(this).classed("cell-hover",false);
