@@ -77,9 +77,14 @@ Polymer({
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                self.$.ajax.url = "http://localhost:8080/proteins/"+d;
+                self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
-                return self.proteins;
+                if (self.proteins){
+                    return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator>'
+                    + "</br>Proteins: "+self.proteins;
+                }else{
+                    return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator>';
+                }
             });
         svg.call(tip);
 
@@ -168,6 +173,7 @@ Polymer({
             });
 
         var whichValue = "value"
+        var t = svg.transition().duration(1000);
 
         cards.transition().duration(100)
             .style("fill", function(d) { return colorScale(d.value); });
@@ -224,6 +230,8 @@ Polymer({
                 });
             idx+=1;
         }
+    },
+    transpose: function () {
     },
     handleResponse: function(request) {
         response = request.detail.response;

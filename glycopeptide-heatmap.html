@@ -4,7 +4,7 @@
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
-
+<link rel="import" href="../peptide-mass-calculator/peptide-mass-calculator.html">
 <link rel="import" href="glycopeptide-heatmap-style.html">
 
 <!-- Import d3 and heatmap generating script -->
@@ -101,7 +101,6 @@
         <iron-ajax
             id="ajax"
             method="GET"
-            url="http://localhost:8080/proteins/"
             handle-as="json"
             on-response="handleResponse"
             on-error="handleErrorResponse"
