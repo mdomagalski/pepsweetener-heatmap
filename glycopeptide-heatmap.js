@@ -80,7 +80,7 @@ Polymer({
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
                 if (self.proteins){
-                    return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator>'
+                    return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da'
                     + "</br>Proteins: "+self.proteins;
                 }else{
                     return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator>';
@@ -161,8 +161,8 @@ Polymer({
                 //Update the tooltip position and value
                 d.mass = Number(d.mass);
                 d3.select(self).select(".tooltip")
-                    .style("left", (d3.event.pageX+10) + "px")
-                    .style("top", (d3.event.pageY-10) + "px")
+                    .style("left", (d3.event.clientX+10) + "px")
+                    .style("top", (d3.event.clientY-10) + "px")
                     .select("#value")
                     .text(self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)");
                 //Show the tooltip
@@ -230,8 +230,6 @@ Polymer({
                 });
             idx+=1;
         }
-    },
-    transpose: function () {
     },
     handleResponse: function(request) {
         response = request.detail.response;
