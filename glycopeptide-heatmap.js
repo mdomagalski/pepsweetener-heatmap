@@ -110,7 +110,7 @@ Polymer({
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                return 'mass of glycopeptide';
+                return d+' (<glycan-mass-calculator decimals=4 glycan="'+d+'"></glycan-mass-calculator> Da)';
             });
         svg.call(columnTip);
 
@@ -123,8 +123,8 @@ Polymer({
             .attr("y", function(d, i) { return i * gridSize-8; })
             .attr("transform", "translate(20,-10)rotate(-90)")
             .attr("class",  function (d,i) { return "glycanLabel mono c"+i;} )
-            //.on('mouseover', columnTip.show)
-            //.on('mouseout', columnTip.hide);
+            .on('mouseover', columnTip.show)
+            .on('mouseout', columnTip.hide);
     },
     createCardsAndBar: function(){
 

@@ -18,6 +18,7 @@
     "d3": "^3.5.16",
     "d3-tip": "^0.6.7",
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
-    "peptide-mass-calculator": "https://mdomagalski@bitbucket.org/sib-pig/peptide-mass-calculator.git"
+    "peptide-mass-calculator": "https://mdomagalski@bitbucket.org/sib-pig/peptide-mass-calculator.git",
+    "glycan-mass-calculator": "https://mdomagalski@bitbucket.org/sib-pig/glycan-mass-calculator.git"
   }
 }
