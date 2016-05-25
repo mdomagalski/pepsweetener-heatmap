@@ -73,7 +73,7 @@ Polymer({
         var gridSize = this.gridSize;
 
         var self = this;
-        var tip = d3.tip()
+        var rowTip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
@@ -86,9 +86,8 @@ Polymer({
                     return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator>';
                 }
             });
-        svg.call(tip);
+        svg.call(rowTip);
 
-        //var peptideSortOrder=false;
         var peptideLabels = svg.selectAll(".peptideLabel")
             .data(peptides)
             .enter().append("text")
@@ -98,15 +97,23 @@ Polymer({
             .style("text-anchor", "end")
             .attr("transform", "translate(-10," + (gridSize-2) + ")")
             .attr("class", function (d,i) { return "peptideLabel mono r"+i;} )
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide);
+            .on('mouseover', rowTip.show)
+            .on('mouseout', rowTip.hide);
     },
     createColumnLabels: function(){
         var svg = d3.select(this).select("#chart").select("svg").selectAll("g");
         var glycans = this.data.glycans;
         var gridSize = this.gridSize;
 
-        //var colSortOrder=false;
+        var self = this;
+        var columnTip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+                return 'mass of glycopeptide';
+            });
+        svg.call(columnTip);
+
         var glycanLabels = svg.selectAll(".glycanLabel")
             .style("text-anchor", "beginning")
             .data(glycans)
@@ -115,7 +122,9 @@ Polymer({
             .attr("x", 10)
             .attr("y", function(d, i) { return i * gridSize-8; })
             .attr("transform", "translate(20,-10)rotate(-90)")
-            .attr("class",  function (d,i) { return "glycanLabel mono c"+i;} );
+            .attr("class",  function (d,i) { return "glycanLabel mono c"+i;} )
+            //.on('mouseover', columnTip.show)
+            //.on('mouseout', columnTip.hide);
     },
     createCardsAndBar: function(){
 
@@ -143,6 +152,18 @@ Polymer({
         cards.append("title");
 
         var self = this;
+        var cardTip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+                //highlight text
+                d3.select(this).classed("cell-hover",true);
+                d3.selectAll(".peptideLabel").classed("text-highlight",function(r,ri){ return ri==(d.peptide-1);});
+                d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
+                d.mass = Number(d.mass);
+                return self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
+            });
+        svg.call(cardTip);
         cards.enter().append("rect")
             .attr("x", function(d) { return (d.glycan-1)*gridSize})
             .attr("y", function(d) { return (d.peptide-1)*gridSize; })
@@ -152,25 +173,9 @@ Polymer({
             .attr("width", this.gridSize-1)
             .attr("height", this.gridSize-1)
             .style("fill", "white")
-            .on("click", function(d){
-                //highlight text
-                d3.select(this).classed("cell-hover",true);
-                d3.selectAll(".peptideLabel").classed("text-highlight",function(r,ri){ return ri==(d.peptide-1);});
-                d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
-                scrollTop  = document.documentElement.scrollTop || document.body.scrollTop,
-                scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
-                //Update the tooltip position and value
-                d.mass = Number(d.mass);
-                d3.select(self).select(".tooltip")
-                    .style("left", (d3.event.pageX+scrollTop+10) + "px")
-                    .style("top", (d3.event.pageY+scrollLeft-10) + "px")
-                    .select("#value")
-                    .text(self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)");
-                //Show the tooltip
-                d3.select(self).select(".tooltip").classed("hidden", false);
-            })
+            .on('click', cardTip.show)
             .on("mouseout", function(){
-                d3.select(this).classed("cell-hover",false);
+                 d3.select(this).classed("cell-hover",false);
             });
 
         var whichValue = "value"
