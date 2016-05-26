@@ -179,26 +179,23 @@ Polymer({
                 cardTip.hide(d);
             })
             .on("click",function (d) {
+                var rowSelection = d3.selectAll(".peptideLabel").filter(".r"+(d.peptide-1));
+                var columnSelection = d3.selectAll(".glycanLabel").filter(".c"+(d.glycan-1));
+
                 if(d3.select(this).classed("cell-hover")){
                     d3.select(this).classed("cell-hover",false);
+                    var test = d3.selectAll(".cell-hover").filter(".cr"+(d.peptide-1));
+                    if(d3.selectAll(".cell-hover").filter(".cr"+(d.peptide-1)).size() == 0){
+                        rowSelection.classed("text-highlight",false);
+                    }
+                    if(d3.selectAll(".cell-hover").filter(".cc"+(d.glycan-1)).size() == 0){
+                        columnSelection.classed("text-highlight",false);
+                    }
                 } else {
                     d3.select(this).classed("cell-hover",true);
-                }
-                
-                var rowSelection = d3.selectAll(".peptideLabel").filter(".r"+(d.peptide-1));
-                if(rowSelection.classed("text-highlight")){
-                    rowSelection.classed("text-highlight",false);
-                } else {
+                    columnSelection.classed("text-highlight",true);
                     rowSelection.classed("text-highlight",true);
                 }
-                var columnSelection = d3.selectAll(".glycanLabel").filter(".c"+(d.glycan-1));
-                if(columnSelection.classed("text-highlight")){
-                    columnSelection.classed("text-highlight",false);
-                } else {
-                    columnSelection.classed("text-highlight",true);
-                }
-                //d3.selectAll(".peptideLabel").classed("text-highlight",function(r,ri){ return ri==(d.peptide-1);});
-                //d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
             });
 
         var whichValue = "value"
