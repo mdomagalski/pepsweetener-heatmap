@@ -156,10 +156,6 @@ Polymer({
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-                //highlight text
-                d3.select(this).classed("cell-hover",true);
-                d3.selectAll(".peptideLabel").classed("text-highlight",function(r,ri){ return ri==(d.peptide-1);});
-                d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
                 d.mass = Number(d.mass);
                 return self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
             });
@@ -173,9 +169,19 @@ Polymer({
             .attr("width", this.gridSize-1)
             .attr("height", this.gridSize-1)
             .style("fill", "white")
-            .on('click', cardTip.show)
-            .on("mouseout", function(){
-                 d3.select(this).classed("cell-hover",false);
+            .on("mouseover",function(d) {
+                cardTip.show(d);
+                pointer.pointTo(d[whichValue]);
+
+            })
+            .on("mouseout", function(d){
+                d3.select(this).classed("cell-hover",false);
+                cardTip.hide(d);
+            })
+            .on("click",function (d) {
+                d3.select(this).classed("cell-hover",true);
+                d3.selectAll(".peptideLabel").classed("text-highlight",function(r,ri){ return ri==(d.peptide-1);});
+                d3.selectAll(".glycanLabel").classed("text-highlight",function(c,ci){ return ci==(d.glycan-1);});
             });
 
         var whichValue = "value"
@@ -190,7 +196,10 @@ Polymer({
 
         var pointer = d3.select(this).select("#colorbar").call(colorbar);
 
-        cards.on("mouseover",function(d) {pointer.pointTo(d[whichValue])});
+        /*cards.on("mouseover",function(d) {
+            pointer.pointTo(d[whichValue]);
+            cardTip.show(d);
+        });*/
     },
     sortBySequenceAndComposition: function(){
 
