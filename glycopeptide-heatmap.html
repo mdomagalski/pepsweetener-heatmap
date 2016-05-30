@@ -89,13 +89,6 @@
                 line-height: 1;
             }
 
-            .tooltip p {
-                margin: 0;
-                font-family: sans-serif;
-                font-size: 12px;
-                line-height: 20px;
-            }
-
             .hidden {
                 display: none;
             }
@@ -124,8 +117,8 @@
             Match accuracy (ppm)
         </div>
         <div id="chart"></div>
-        <div id="fragmenterContainer"class="description" hidden>
-            <h3>Peptide Fragmenter</h3>
+        <div id="fragmenterContainer" class="description">
+            <h3 id="fragmenterHeader" class="hidden">Peptide ions</h3>
             <peptide-fragmenter peptide=""></peptide-fragmenter>
         </div>
         <peptide-mass-calculator id="peptideMassCalc" class="hidden"></peptide-mass-calculator>

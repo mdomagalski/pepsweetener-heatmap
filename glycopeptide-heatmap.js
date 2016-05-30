@@ -205,6 +205,7 @@ Polymer({
                     columnSelection.classed("text-highlight",true);
                     rowSelection.classed("text-highlight",true);
                     d3.select(self).select("peptide-fragmenter").attr("peptide",self.data.peptides[d.peptide-1]);
+                    d3.select(self).select("#fragmenterHeader").attr("style", "display: flex;")
                 }
             });
 
