@@ -47,7 +47,7 @@ Polymer({
         }
     },
     _sortObserver : function(value) {
-        if (value == "PPM") {
+        if (value == "ppm") {
             this.sortByPpm();
         }else if (value == "mass") {
             this.sortByMass();
