@@ -35,7 +35,7 @@ Polymer({
             this.createRowLabels();
             this.createColumnLabels();
             this.createCardsAndBar();
-            this.sortByMass();
+            this.sortByPpm();
         }
         this.formatChartDescription();
     },
@@ -47,7 +47,9 @@ Polymer({
         }
     },
     _sortObserver : function(value) {
-        if (value == "mass") {
+        if (value == "PPM") {
+            this.sortByPpm();
+        }else if (value == "mass") {
             this.sortByMass();
         }else if (value == "sequence&composition") {
             this.sortBySequenceAndComposition();
@@ -136,8 +138,11 @@ Polymer({
             width = (this.gridSize*this.data.glycans.length),
             height = (this.gridSize*this.data.peptides.length)+30;
 
+
         var range = this.data.map.map(function(d){return d.value});
-        var colorScale = d3.scale.linear().domain(d3.extent(range)).range(["green", "yellow"]);
+        var max = Math.max.apply(Math, range);
+        var colorScale = d3.scale.linear().domain(d3.extent([0,Math.round(max / 10) * 10])).range(["green", "yellow"]);
+        //var colorScale = d3.scale.linear().domain([0, max/2, max]).range(['green', 'white', 'yellow']);
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
@@ -211,11 +216,6 @@ Polymer({
         cards.exit().remove();
 
         var pointer = d3.select(this).select("#colorbar").call(colorbar);
-
-        /*cards.on("mouseover",function(d) {
-            pointer.pointTo(d[whichValue]);
-            cardTip.show(d);
-        });*/
     },
     sortBySequenceAndComposition: function(){
         // don't operate on this.gridSize
@@ -301,6 +301,61 @@ Polymer({
             glycanMasses[this.data.glycans[glycan]] = glycanMassCalc.mass;
         }
         var sortedGlycans = Object.keys(glycanMasses).sort(function(a,b){return glycanMasses[a]-glycanMasses[b]});
+        idx =0;
+        for (var i=0; i<this.data.glycans.length; i++){
+            glycan = this.data.glycans[i];
+            sIdx = this.inArray(glycan, sortedGlycans);
+            var shift = sIdx-idx;
+            t.selectAll("rect.cc"+idx)
+                .attr("x", function(d, i) {
+                    return sIdx * gridSize;
+                });
+            t.selectAll(".c"+idx)
+                .attr("y", function(d, i) {
+                    return sIdx * gridSize-8;
+                })
+            idx+=1;
+        }
+    },
+    sortByPpm: function() {
+        // don't operate on this.gridSize
+        // it will destroy the chart
+        var gridSize = this.gridSize;
+
+        var svg = d3.select(this).select("#chart").select("svg");
+        var t = svg.transition().duration(1000);
+
+        var peptidePpms = {};
+        var glycanPpms = {};
+        for (var i in this.data.map){
+            if (this.inArray(this.data.peptides[this.data.map[i].peptide-1],Object.keys(peptidePpms))<0
+            || peptidePpms[this.data.peptides[this.data.map[i].peptide-1]]>this.data.map[i].value){
+                peptidePpms[this.data.peptides[this.data.map[i].peptide-1]] = this.data.map[i].value;
+            }
+            if (this.inArray(this.data.glycans[this.data.map[i].glycan-1],Object.keys(glycanPpms))<0
+                || glycanPpms[this.data.glycans[this.data.map[i].glycan-1]]>this.data.map[i].value){
+                glycanPpms[this.data.glycans[this.data.map[i].glycan-1]] = this.data.map[i].value;
+            }
+        }
+        var sortedPeptides = Object.keys(peptidePpms).sort(function(a,b){return peptidePpms[a]-peptidePpms[b]});
+        idx =0;
+        for (var i=0; i<this.data.peptides.length; i++){
+            peptide = this.data.peptides[i];
+            sIdx = this.inArray(peptide, sortedPeptides);
+            t.selectAll(".cr"+idx)
+                .attr("y", function(d,i) {
+                    return sIdx * gridSize;
+                });
+            t.selectAll(".r"+idx)
+                .attr("y", function(d, i) {
+                    return sIdx * gridSize-2;
+                })
+                .attr("transform", function(d, i) {
+                    return "translate(-10," + gridSize + ")";
+                });
+            idx+=1;
+        }
+        var sortedGlycans = Object.keys(glycanPpms).sort(function(a,b){return glycanPpms[a]-glycanPpms[b]});
         idx =0;
         for (var i=0; i<this.data.glycans.length; i++){
             glycan = this.data.glycans[i];
