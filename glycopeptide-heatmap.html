@@ -7,6 +7,7 @@
 <link rel="import" href="../glycan-mass-calculator/glycan-mass-calculator.html">
 <link rel="import" href="../peptide-mass-calculator/peptide-mass-calculator.html">
 <link rel="import" href="glycopeptide-heatmap-style.html">
+<link rel="import" href="../peptide-fragmenter/peptide-fragmenter.html">
 
 <!-- Import d3 and heatmap generating script -->
 <script src="../d3/d3.js"></script>
@@ -67,7 +68,7 @@
                 padding: 0;
             }
 
-            div#description {
+            .description {
                 margin-left: 80px;
                 margin-top: 18px;
                 margin-right: 100px;
@@ -108,7 +109,7 @@
             debounce-duration="300">
         </iron-ajax>
         <div style="display: inline-flex; position: absolute;">
-            <div id="description"></div>
+            <div id="description" class="description"></div>
             <paper-dropdown-menu id="sorting" label="Sort by" class="sort hidden">
                 <paper-menu class="dropdown-content" selected="{{sorting}}" attr-for-selected="value">
                     <paper-item value="sequence&composition">
@@ -121,6 +122,9 @@
             Match accuracy (ppm)
         </div>
         <div id="chart"></div>
+        <div class="description">
+            <h3>Peptide Fragmenter</h3>
+            <peptide-fragmenter id="peptideFragmenters" peptide=""></peptide-fragmenter></div>
     </template>
     <!-- Registers custom element -->
     <script src="glycopeptide-heatmap.js"></script>

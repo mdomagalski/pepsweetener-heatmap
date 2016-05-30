@@ -19,6 +19,9 @@
     "d3-tip": "^0.6.7",
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
     "peptide-mass-calculator": "https://mdomagalski@bitbucket.org/sib-pig/peptide-mass-calculator.git",
-    "glycan-mass-calculator": "https://mdomagalski@bitbucket.org/sib-pig/glycan-mass-calculator.git"
+    "glycan-mass-calculator": "https://mdomagalski@bitbucket.org/sib-pig/glycan-mass-calculator.git",
+    "peptide-fragmenter": "https://dalocci@bitbucket.org/sib-pig/peptide-fragmenter.git",
+    "paper-menu": "PolymerElements/paper-menu#^1.2.2",
+    "paper-item": "PolymerElements/paper-item#^1.2.1"
   }
 }

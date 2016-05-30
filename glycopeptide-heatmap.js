@@ -195,6 +195,7 @@ Polymer({
                     d3.select(this).classed("cell-hover",true);
                     columnSelection.classed("text-highlight",true);
                     rowSelection.classed("text-highlight",true);
+                    d3.select(self).select("#peptideFragmenters").attr("peptide",self.data.peptides[d.peptide-1]);
                 }
             });
 
