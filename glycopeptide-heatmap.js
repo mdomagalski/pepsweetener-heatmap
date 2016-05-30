@@ -58,6 +58,7 @@ Polymer({
                     +"</b> theoretical peptide + glycan combinations were found</h3>";
                 this.$.sorting.setAttribute("class", "sort");
                 this.$.comment.setAttribute("class", "");
+                this.$.fragmenterContainer.removeAttribute("hidden");
             }else{
                 chartDescDiv.innerHTML="<h3>Nothing found!</h3>";
                 this.$.sorting.setAttribute("class", "sort hidden");
@@ -195,7 +196,7 @@ Polymer({
                     d3.select(this).classed("cell-hover",true);
                     columnSelection.classed("text-highlight",true);
                     rowSelection.classed("text-highlight",true);
-                    d3.select(self).select("#peptideFragmenters").attr("peptide",self.data.peptides[d.peptide-1]);
+                    d3.select(self).select("peptide-fragmenter").attr("peptide",self.data.peptides[d.peptide-1]);
                 }
             });
 
