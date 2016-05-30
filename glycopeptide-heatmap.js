@@ -141,7 +141,7 @@ Polymer({
 
         var range = this.data.map.map(function(d){return d.value});
         var max = Math.max.apply(Math, range);
-        var colorScale = d3.scale.linear().domain(d3.extent([0,Math.round(max / 10) * 10])).range(["green", "yellow"]);
+        var colorScale = d3.scale.linear().domain(d3.extent([0,Math.ceil(max / 10) * 10])).range(["green", "yellow"]);
         //var colorScale = d3.scale.linear().domain([0, max/2, max]).range(['green', 'white', 'yellow']);
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
