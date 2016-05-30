@@ -112,8 +112,11 @@
             <div id="description" class="description"></div>
             <paper-dropdown-menu id="sorting" label="Sort by" class="sort hidden">
                 <paper-menu class="dropdown-content" selected="{{sorting}}" attr-for-selected="value">
+                    <paper-item value="mass">
+                        mass
+                    </paper-item>
                     <paper-item value="sequence&composition">
-                        Peptide sequence and glycan composition
+                        sequence and composition
                     </paper-item>
                 </paper-menu>
             </paper-dropdown-menu>
@@ -126,6 +129,8 @@
             <h3>Peptide Fragmenter</h3>
             <peptide-fragmenter peptide=""></peptide-fragmenter>
         </div>
+        <peptide-mass-calculator id="peptideMassCalc" class="hidden"></peptide-mass-calculator>
+        <glycan-mass-calculator id="glycanMassCalc" class="hidden"></glycan-mass-calculator>
     </template>
     <!-- Registers custom element -->
     <script src="glycopeptide-heatmap.js"></script>

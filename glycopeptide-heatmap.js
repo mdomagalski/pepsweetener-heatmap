@@ -35,6 +35,7 @@ Polymer({
             this.createRowLabels();
             this.createColumnLabels();
             this.createCardsAndBar();
+            this.sortByMass();
         }
         this.formatChartDescription();
     },
@@ -46,7 +47,9 @@ Polymer({
         }
     },
     _sortObserver : function(value) {
-        if (value == "sequence&composition") {
+        if (value == "mass") {
+            this.sortByMass();
+        }else if (value == "sequence&composition") {
             this.sortBySequenceAndComposition();
         }
     },
@@ -149,7 +152,6 @@ Polymer({
         var cards = svg.selectAll(".glycopeptide")
             .data(this.data.map, function(d) {return d.peptide+':'+d.glycan;});
         var gridSize = this.gridSize;
-
         cards.append("title");
 
         var self = this;
@@ -161,6 +163,7 @@ Polymer({
                 return self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
             });
         svg.call(cardTip);
+
         cards.enter().append("rect")
             .attr("x", function(d) { return (d.glycan-1)*gridSize})
             .attr("y", function(d) { return (d.peptide-1)*gridSize; })
@@ -169,7 +172,7 @@ Polymer({
             .attr("ry", 3)
             .attr("width", this.gridSize-1)
             .attr("height", this.gridSize-1)
-            .style("fill", "white")
+            .style("fill", function(d) { return colorScale(d.value); })
             .on("mouseover",function(d) {
                 cardTip.show(d);
                 pointer.pointTo(d[whichValue]);
@@ -202,10 +205,7 @@ Polymer({
 
         var whichValue = "value"
         var t = svg.transition().duration(1000);
-
-        cards.transition().duration(100)
-            .style("fill", function(d) { return colorScale(d.value); });
-
+        
         cards.select("title").text(function(d) { return d.value; });
 
         cards.exit().remove();
@@ -218,7 +218,6 @@ Polymer({
         });*/
     },
     sortBySequenceAndComposition: function(){
-
         // don't operate on this.gridSize
         // it will destroy the chart
         var gridSize = this.gridSize;
@@ -259,6 +258,62 @@ Polymer({
                 .attr("transform", function(d, i) {
                     return "translate(-10," + gridSize + ")";
                 });
+            idx+=1;
+        }
+    },
+    sortByMass: function(){
+        // don't operate on this.gridSize
+        // it will destroy the chart
+        var gridSize = this.gridSize;
+
+        var svg = d3.select(this).select("#chart").select("svg");
+        var t = svg.transition().duration(1000);
+
+        var peptideMassCalc = this.$.peptideMassCalc;
+        var peptideMasses = {};
+        for (var pep in this.data.peptides){
+            peptideMassCalc.peptide = this.data.peptides[pep]
+            peptideMasses[this.data.peptides[pep]] = peptideMassCalc.mass;
+        }
+        var sortedPeptides = Object.keys(peptideMasses).sort(function(a,b){return peptideMasses[a]-peptideMasses[b]});
+        idx =0;
+        for (var i=0; i<this.data.peptides.length; i++){
+            peptide = this.data.peptides[i];
+            sIdx = this.inArray(peptide, sortedPeptides);
+            t.selectAll(".cr"+idx)
+                .attr("y", function(d,i) {
+                    return sIdx * gridSize;
+                });
+            t.selectAll(".r"+idx)
+                .attr("y", function(d, i) {
+                    return sIdx * gridSize-2;
+                })
+                .attr("transform", function(d, i) {
+                    return "translate(-10," + gridSize + ")";
+                });
+            idx+=1;
+        }
+
+        var glycanMassCalc = this.$.glycanMassCalc;
+        var glycanMasses = {};
+        for (var glycan in this.data.glycans){
+            glycanMassCalc.glycan = this.data.glycans[glycan]
+            glycanMasses[this.data.glycans[glycan]] = glycanMassCalc.mass;
+        }
+        var sortedGlycans = Object.keys(glycanMasses).sort(function(a,b){return glycanMasses[a]-glycanMasses[b]});
+        idx =0;
+        for (var i=0; i<this.data.glycans.length; i++){
+            glycan = this.data.glycans[i];
+            sIdx = this.inArray(glycan, sortedGlycans);
+            var shift = sIdx-idx;
+            t.selectAll("rect.cc"+idx)
+                .attr("x", function(d, i) {
+                    return sIdx * gridSize;
+                });
+            t.selectAll(".c"+idx)
+                .attr("y", function(d, i) {
+                    return sIdx * gridSize-8;
+                })
             idx+=1;
         }
     },
