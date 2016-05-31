@@ -43,6 +43,7 @@ Polymer({
         if (newValue){
             var svg = d3.select(this).select("#chart").select("svg").remove();
             this.$.sorting.querySelector('paper-menu').selected=0;
+            this.$.fragmenterContainer.setAttribute("class", "hidden");
             this.attached();
         }
     },
@@ -205,7 +206,7 @@ Polymer({
                     columnSelection.classed("text-highlight",true);
                     rowSelection.classed("text-highlight",true);
                     d3.select(self).select("peptide-fragmenter").attr("peptide",self.data.peptides[d.peptide-1]);
-                    d3.select(self).select("#fragmenterHeader").attr("style", "display: flex;")
+                    d3.select(self).select("#fragmenterContainer").attr("class", "description");
                 }
             });
 
