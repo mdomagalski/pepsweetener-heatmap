@@ -88,7 +88,7 @@ Polymer({
                 self.$.ajax.generateRequest();
                 if (self.proteins){
                     return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da'
-                    + "</br>Proteins: "+self.proteins;
+                        + "</br>Proteins: "+self.proteins;
                 }else{
                     return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator>';
                 }
@@ -212,7 +212,7 @@ Polymer({
 
         var whichValue = "value"
         var t = svg.transition().duration(1000);
-        
+
         cards.select("title").text(function(d) { return d.value; });
 
         cards.exit().remove();
@@ -274,13 +274,13 @@ Polymer({
         var peptideMassCalc = this.$.peptideMassCalc;
         var peptideMasses = {};
         for (var pep in this.data.peptides){
-            peptideMassCalc.peptide = this.data.peptides[pep]
+            peptideMassCalc.peptide = this.data.peptides[pep].toString();
             peptideMasses[this.data.peptides[pep]] = peptideMassCalc.mass;
         }
         var sortedPeptides = Object.keys(peptideMasses).sort(function(a,b){return peptideMasses[a]-peptideMasses[b]});
         idx =0;
         for (var i=0; i<this.data.peptides.length; i++){
-            peptide = this.data.peptides[i];
+            peptide = this.data.peptides[i].toString();
             sIdx = this.inArray(peptide, sortedPeptides);
             t.selectAll(".cr"+idx)
                 .attr("y", function(d,i) {
@@ -330,9 +330,10 @@ Polymer({
         var peptidePpms = {};
         var glycanPpms = {};
         for (var i in this.data.map){
-            if (this.inArray(this.data.peptides[this.data.map[i].peptide-1],Object.keys(peptidePpms))<0
-            || peptidePpms[this.data.peptides[this.data.map[i].peptide-1]]>this.data.map[i].value){
-                peptidePpms[this.data.peptides[this.data.map[i].peptide-1]] = this.data.map[i].value;
+            console.log(this.data.peptides[this.data.map[i].peptide-1]);
+            if (this.inArray(this.data.peptides[this.data.map[i].peptide-1].toString(),Object.keys(peptidePpms))<0
+                || peptidePpms[this.data.peptides[this.data.map[i].peptide-1].toString()]>this.data.map[i].value){
+                peptidePpms[this.data.peptides[this.data.map[i].peptide-1].toString()] = this.data.map[i].value;
             }
             if (this.inArray(this.data.glycans[this.data.map[i].glycan-1],Object.keys(glycanPpms))<0
                 || glycanPpms[this.data.glycans[this.data.map[i].glycan-1]]>this.data.map[i].value){
@@ -342,7 +343,7 @@ Polymer({
         var sortedPeptides = Object.keys(peptidePpms).sort(function(a,b){return peptidePpms[a]-peptidePpms[b]});
         idx =0;
         for (var i=0; i<this.data.peptides.length; i++){
-            peptide = this.data.peptides[i];
+            peptide = this.data.peptides[i].toString();
             sIdx = this.inArray(peptide, sortedPeptides);
             t.selectAll(".cr"+idx)
                 .attr("y", function(d,i) {
@@ -370,7 +371,7 @@ Polymer({
             t.selectAll(".c"+idx)
                 .attr("y", function(d, i) {
                     return sIdx * gridSize-8;
-                })
+                });
             idx+=1;
         }
     },
@@ -396,4 +397,3 @@ Polymer({
     }
 
 });
-
