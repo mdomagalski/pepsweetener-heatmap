@@ -68,10 +68,29 @@
                 padding: 0;
             }
 
-            .description {
+            peptide-fragmenter {
                 margin-left: 25px;
-                margin-top: 18px;
-                margin-right: 50px;
+                float: right;
+            }
+
+            div#sortContainer {
+                display: inline-flex;
+                position: absolute;
+                margin-left: 25px;
+            }
+
+            div.comment {
+                margin-top: 145px;
+                margin-left: 60px;
+                position: absolute;
+            }
+
+            div[disabled]{
+                display: none;
+            }
+
+            #fragmenterHeader {
+                margin-left: 30px;
             }
 
             div.tooltip {
@@ -94,15 +113,14 @@
             }
         </style>
         <iron-ajax
-            id="ajax"
-            method="GET"
-            handle-as="json"
-            on-response="handleResponse"
-            on-error="handleErrorResponse"
-            debounce-duration="300">
+                id="ajax"
+                method="GET"
+                handle-as="json"
+                on-response="handleResponse"
+                on-error="handleErrorResponse"
+                debounce-duration="300">
         </iron-ajax>
-        <div style="display: inline-flex; position: absolute;">
-            <div id="description" class="description"></div>
+        <div id="sortContainer">
             <paper-dropdown-menu id="sorting" label="Sort by" class="sort hidden">
                 <paper-menu class="dropdown-content" selected="{{sorting}}" attr-for-selected="value">
                     <paper-item value="ppm">ppm distance</paper-item>
@@ -113,11 +131,11 @@
                 </paper-menu>
             </paper-dropdown-menu>
         </div>
-        <div id="comment" class="hidden" style="position: absolute; margin-top: 275px; margin-left:60px;">
+        <div id="comment" class="comment" disabled>
             Match accuracy (ppm)
         </div>
         <div id="chart"></div>
-        <div id="fragmenterContainer" class="description hidden">
+        <div id="fragmenterContainer" disabled>
             <h3 id="fragmenterHeader">Theoretical peptide ions</h3>
             <peptide-fragmenter peptide=""></peptide-fragmenter>
         </div>

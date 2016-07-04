@@ -11,7 +11,7 @@ Polymer({
         },
         margin: {
             type: Array,
-            value: { top: 400, right: 50, bottom: 20, left: 0}
+            value: { top: 0, right: 50, bottom: 20, left: 0}
         },
         sorting: {
             type: String,
@@ -23,18 +23,21 @@ Polymer({
             var gridSize = this.gridSize,
                 width = (this.gridSize*this.data.glycans.length),
                 height = (this.gridSize*this.data.peptides.length)+30;
-            
+
             var maxPepLength = 0;
             this.data.peptides.forEach(function(pep){if(pep.length>maxPepLength){maxPepLength=pep.length}}, this);
             var left = Math.max((this.margin.left + (maxPepLength*9) + 80),280);
+            var maxGlycanLength = 0;
+            this.data.glycans.forEach(function(glycan){if(glycan.length>maxGlycanLength){maxGlycanLength=glycan.length}}, this);
+            var top = Math.max((this.margin.top + (maxGlycanLength*7) + 80),250)
 
             var svg = d3.select(this).select("#chart").select("svg").remove();
 
             var svg = d3.select(this).select("#chart").append("svg")
                 .attr("width", width + left + this.margin.right)
-                .attr("height", height + this.margin.top + this.margin.bottom)
+                .attr("height", height + top + this.margin.bottom)
                 .append("g").attr("id", "main")
-                .attr("transform", "translate(" + left + "," + this.margin.top + ")");
+                .attr("transform", "translate(" + left + "," + top + ")");
 
             this.createRowLabels();
             this.createColumnLabels();
@@ -47,7 +50,7 @@ Polymer({
         if (newValue){
             var svg = d3.select(this).select("#chart").select("svg").remove();
             this.$.sorting.querySelector('paper-menu').selected=0;
-            this.$.fragmenterContainer.setAttribute("class", "hidden");
+            this.$.fragmenterContainer.setAttribute("disabled", "true");
             this.attached();
         }
     },
@@ -61,18 +64,14 @@ Polymer({
         }
     },
     formatChartDescription: function(){
-        var chartDescDiv = this.$.description;
         if(this.data){
             if(this.data.map.length!=0){
-                chartDescDiv.innerHTML="<h3><b>"+this.data.map.length
-                    +"</b> theoretical peptide + glycan combinations were found</h3>";
                 this.$.sorting.setAttribute("class", "sort");
-                this.$.comment.setAttribute("class", "");
+                this.$.comment.removeAttribute("disabled");
                 this.$.fragmenterContainer.removeAttribute("hidden");
             }else{
-                chartDescDiv.innerHTML="<h3>Nothing found!</h3>";
                 this.$.sorting.setAttribute("class", "sort hidden");
-                this.$.comment.setAttribute("class", "hidden");
+                this.$.comment.setAttribute("disabled", "true");
             }
 
         }
@@ -154,7 +153,7 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([50, 300])
+            .origin([55, 170])
             .scale(colorScale).barlength(200).thickness(14)
             .orient("horizontal")
             .title("Match accuracy (ppm)");
@@ -201,19 +200,19 @@ Polymer({
 
                 if(d3.select(this).classed("cell-hover")){
                     d3.select(this).classed("cell-hover",false);
-                    var test = d3.selectAll(".cell-hover").filter(".cr"+(d.peptide-1));
                     if(d3.selectAll(".cell-hover").filter(".cr"+(d.peptide-1)).size() == 0){
                         rowSelection.classed("text-highlight",false);
                     }
                     if(d3.selectAll(".cell-hover").filter(".cc"+(d.glycan-1)).size() == 0){
                         columnSelection.classed("text-highlight",false);
                     }
+                    self.$.fragmenterContainer.setAttribute("disabled", true);
                 } else {
                     d3.select(this).classed("cell-hover",true);
                     columnSelection.classed("text-highlight",true);
                     rowSelection.classed("text-highlight",true);
                     d3.select(self).select("peptide-fragmenter").attr("peptide",self.data.peptides[d.peptide-1]);
-                    d3.select(self).select("#fragmenterContainer").attr("class", "description");
+                    self.$.fragmenterContainer.removeAttribute("disabled");
                 }
             });
 
