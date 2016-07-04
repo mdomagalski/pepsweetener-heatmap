@@ -11,7 +11,7 @@ Polymer({
         },
         margin: {
             type: Array,
-            value: { top: 400, right: 50, bottom: 20, left: 400}
+            value: { top: 400, right: 50, bottom: 20, left: 0}
         },
         sorting: {
             type: String,
@@ -23,14 +23,18 @@ Polymer({
             var gridSize = this.gridSize,
                 width = (this.gridSize*this.data.glycans.length),
                 height = (this.gridSize*this.data.peptides.length)+30;
+            
+            var maxPepLength = 0;
+            this.data.peptides.forEach(function(pep){if(pep.length>maxPepLength){maxPepLength=pep.length}}, this);
+            var left = Math.max((this.margin.left + (maxPepLength*9) + 80),280);
 
             var svg = d3.select(this).select("#chart").select("svg").remove();
 
             var svg = d3.select(this).select("#chart").append("svg")
-                .attr("width", width + this.margin.left + this.margin.right)
+                .attr("width", width + left + this.margin.right)
                 .attr("height", height + this.margin.top + this.margin.bottom)
                 .append("g").attr("id", "main")
-                .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+                .attr("transform", "translate(" + left + "," + this.margin.top + ")");
 
             this.createRowLabels();
             this.createColumnLabels();
@@ -98,7 +102,10 @@ Polymer({
         var peptideLabels = svg.selectAll(".peptideLabel")
             .data(peptides)
             .enter().append("text")
-            .text(function (d) { return d; })
+            .text(function (d) {
+                self.$.peptideMassCalc.peptide = d;
+                return d+' ('+self.$.peptideMassCalc.mass+' Da)';
+            })
             .attr("x", 0)
             .attr("y", function (d, i) { return i * gridSize; })
             .style("text-anchor", "end")
@@ -147,8 +154,8 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([180, 300])
-            .scale(colorScale).barlength(this.margin.left-200).thickness(14)
+            .origin([50, 300])
+            .scale(colorScale).barlength(200).thickness(14)
             .orient("horizontal")
             .title("Match accuracy (ppm)");
 
@@ -330,7 +337,6 @@ Polymer({
         var peptidePpms = {};
         var glycanPpms = {};
         for (var i in this.data.map){
-            console.log(this.data.peptides[this.data.map[i].peptide-1]);
             if (this.inArray(this.data.peptides[this.data.map[i].peptide-1].toString(),Object.keys(peptidePpms))<0
                 || peptidePpms[this.data.peptides[this.data.map[i].peptide-1].toString()]>this.data.map[i].value){
                 peptidePpms[this.data.peptides[this.data.map[i].peptide-1].toString()] = this.data.map[i].value;

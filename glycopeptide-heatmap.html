@@ -69,9 +69,9 @@
             }
 
             .description {
-                margin-left: 80px;
+                margin-left: 25px;
                 margin-top: 18px;
-                margin-right: 100px;
+                margin-right: 50px;
             }
 
             div.tooltip {
@@ -113,7 +113,7 @@
                 </paper-menu>
             </paper-dropdown-menu>
         </div>
-        <div id="comment" class="hidden" style="position: absolute; margin-top: 280px; margin-left:190px;">
+        <div id="comment" class="hidden" style="position: absolute; margin-top: 275px; margin-left:60px;">
             Match accuracy (ppm)
         </div>
         <div id="chart"></div>
@@ -121,7 +121,7 @@
             <h3 id="fragmenterHeader">Theoretical peptide ions</h3>
             <peptide-fragmenter peptide=""></peptide-fragmenter>
         </div>
-        <peptide-mass-calculator id="peptideMassCalc" class="hidden"></peptide-mass-calculator>
+        <peptide-mass-calculator id="peptideMassCalc" decimals=4 class="hidden"></peptide-mass-calculator>
         <glycan-mass-calculator id="glycanMassCalc" class="hidden"></glycan-mass-calculator>
     </template>
     <!-- Registers custom element -->
