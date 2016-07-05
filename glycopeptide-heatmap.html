@@ -128,8 +128,8 @@
                 on-error="handleErrorResponse"
                 debounce-duration="300">
         </iron-ajax>
-        <div id="sortContainer">
-            <paper-dropdown-menu id="sorting" label="Sort by" class="sort hidden">
+        <div id="sortContainer" disabled>
+            <paper-dropdown-menu id="sorting" label="Sort by" class="sort">
                 <paper-menu class="dropdown-content" selected="{{sorting}}" attr-for-selected="value">
                     <paper-item value="ppm">ppm distance</paper-item>
                     <paper-item value="mass">mass</paper-item>

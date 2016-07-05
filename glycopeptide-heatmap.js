@@ -66,11 +66,10 @@ Polymer({
     formatChartDescription: function(){
         if(this.data){
             if(this.data.map.length!=0){
-                this.$.sorting.setAttribute("class", "sort");
+                this.$.sortContainer.setAttribute("disabled");
                 this.$.comment.removeAttribute("disabled");
-                this.$.fragmenterContainer.removeAttribute("hidden");
             }else{
-                this.$.sorting.setAttribute("class", "sort hidden");
+                this.$.sortContainer.setAttribute("disabled", "true");
                 this.$.comment.setAttribute("disabled", "true");
             }
 
@@ -90,7 +89,7 @@ Polymer({
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
                 if (self.proteins){
-                        + "Proteins: "+self.proteins;
+                    return "Proteins: "+self.proteins;
                 }else{
                     return 'no protein information';
                 }
