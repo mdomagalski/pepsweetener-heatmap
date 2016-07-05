@@ -84,12 +84,13 @@ Polymer({
         var self = this;
         var rowTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([-10, 50])
+            .offset([-10, 150])
             .html(function(d) {
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
                 if (self.proteins){
-                    return "Proteins: "+self.proteins;
+                    return d+' "<glycan-mass-calculator decimals=4 glycan="'+d+'"></glycan-mass-calculator> Da)' +
+                    '</br>Proteins: '+self.proteins;
                 }else{
                     return 'no protein information';
                 }
