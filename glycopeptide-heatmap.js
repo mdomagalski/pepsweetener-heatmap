@@ -85,7 +85,7 @@ Polymer({
         var self = this;
         var rowTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([-10, 0])
+            .offset([+50, 0])
             .html(function(d) {
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
@@ -153,7 +153,7 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([105, 170])
+            .origin([100, 170])
             .scale(colorScale).barlength(200).thickness(14)
             .orient("horizontal")
             .title("Match accuracy (ppm)");
@@ -169,7 +169,7 @@ Polymer({
         var self = this;
         var cardTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([+10, 0])
+            .offset([-10, 0])
             .html(function(d) {
                 d.mass = Number(d.mass);
                 return self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
@@ -217,7 +217,7 @@ Polymer({
             });
 
         var whichValue = "value"
-        var t = svg.transition().duration(1000);
+        var t = svg.transition().duration(500);
 
         cards.select("title").text(function(d) { return d.value; });
 
@@ -231,7 +231,7 @@ Polymer({
         var gridSize = this.gridSize;
 
         var svg = d3.select(this).select("#chart").select("svg");
-        var t = svg.transition().duration(1000);
+        var t = svg.transition().duration(500);
 
         var sortedGlycans = this.data.glycans.slice(0).sort();
         idx =0;
@@ -275,7 +275,7 @@ Polymer({
         var gridSize = this.gridSize;
 
         var svg = d3.select(this).select("#chart").select("svg");
-        var t = svg.transition().duration(1000);
+        var t = svg.transition().duration(500);
 
         var peptideMassCalc = this.$.peptideMassCalc;
         var peptideMasses = {};
@@ -331,7 +331,7 @@ Polymer({
         var gridSize = this.gridSize;
 
         var svg = d3.select(this).select("#chart").select("svg");
-        var t = svg.transition().duration(1000);
+        var t = svg.transition().duration(500);
 
         var peptidePpms = {};
         var glycanPpms = {};
