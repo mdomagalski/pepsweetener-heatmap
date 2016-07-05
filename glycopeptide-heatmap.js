@@ -84,12 +84,12 @@ Polymer({
         var self = this;
         var rowTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([-10, 220])
+            .offset([-10, 300])
             .html(function(d) {
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
                 if (self.proteins){
-                    return d+' (<peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da)' +
+                    return d+' (<peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da)'+
                     '</br>Proteins: '+self.proteins;
                 }else{
                     return 'no protein information';
