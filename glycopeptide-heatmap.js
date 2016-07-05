@@ -84,12 +84,12 @@ Polymer({
         var self = this;
         var rowTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([-10, 150])
+            .offset([-10, 200])
             .html(function(d) {
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
                 if (self.proteins){
-                    return d+' "<glycan-mass-calculator decimals=4 glycan="'+d+'"></glycan-mass-calculator> Da)' +
+                    return d+' ("<peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da)' +
                     '</br>Proteins: '+self.proteins;
                 }else{
                     return 'no protein information';
@@ -168,7 +168,7 @@ Polymer({
         var self = this;
         var cardTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([-10, 0])
+            .offset([-10, 100])
             .html(function(d) {
                 d.mass = Number(d.mass);
                 return self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
