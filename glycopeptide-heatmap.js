@@ -66,7 +66,7 @@ Polymer({
     formatChartDescription: function(){
         if(this.data){
             if(this.data.map.length!=0){
-                this.$.sortContainer.setAttribute("disabled");
+                this.$.sortContainer.removeAttribute("disabled");
                 this.$.comment.removeAttribute("disabled");
             }else{
                 this.$.sortContainer.setAttribute("disabled", "true");
@@ -152,7 +152,7 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([100, 170])
+            .origin([90, 170])
             .scale(colorScale).barlength(200).thickness(14)
             .orient("horizontal")
             .title("Match accuracy (ppm)");
