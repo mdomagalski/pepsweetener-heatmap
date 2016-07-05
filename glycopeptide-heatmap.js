@@ -26,10 +26,10 @@ Polymer({
 
             var maxPepLength = 0;
             this.data.peptides.forEach(function(pep){if(pep.length>maxPepLength){maxPepLength=pep.length}}, this);
-            var left = Math.max((this.margin.left + (maxPepLength*9) + 140),280);
+            var left = Math.max((this.margin.left + (maxPepLength*9) + 130),280);
             var maxGlycanLength = 0;
             this.data.glycans.forEach(function(glycan){if(glycan.length>maxGlycanLength){maxGlycanLength=glycan.length}}, this);
-            var top = Math.max((this.margin.top + (maxGlycanLength*7) + 60),250)
+            var top = Math.max((this.margin.top + (maxGlycanLength*7) + 50),250)
 
             var svg = d3.select(this).select("#chart").select("svg").remove();
 
@@ -153,7 +153,7 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([55, 170])
+            .origin([105, 170])
             .scale(colorScale).barlength(200).thickness(14)
             .orient("horizontal")
             .title("Match accuracy (ppm)");
@@ -169,7 +169,7 @@ Polymer({
         var self = this;
         var cardTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([-10, 0])
+            .offset([+10, 0])
             .html(function(d) {
                 d.mass = Number(d.mass);
                 return self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
