@@ -26,7 +26,7 @@ Polymer({
 
             var maxPepLength = 0;
             this.data.peptides.forEach(function(pep){if(pep.length>maxPepLength){maxPepLength=pep.length}}, this);
-            var left = Math.max((this.margin.left + (maxPepLength*9) + 80),280);
+            var left = Math.max((this.margin.left + (maxPepLength*9) + 120),280);
             var maxGlycanLength = 0;
             this.data.glycans.forEach(function(glycan){if(glycan.length>maxGlycanLength){maxGlycanLength=glycan.length}}, this);
             var top = Math.max((this.margin.top + (maxGlycanLength*7) + 80),250)
