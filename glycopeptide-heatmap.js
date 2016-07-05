@@ -152,7 +152,7 @@ Polymer({
 
         //color bar showing the ppm difference between glycan on the heatmap and query mass
         colorbar = Colorbar(0)
-            .origin([90, 170])
+            .origin([70, 170])
             .scale(colorScale).barlength(200).thickness(14)
             .orient("horizontal")
             .title("Match accuracy (ppm)");
