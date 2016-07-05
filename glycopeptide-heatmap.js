@@ -85,15 +85,14 @@ Polymer({
         var self = this;
         var rowTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([-10, 200])
+            .offset([-10, 50])
             .html(function(d) {
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
                 if (self.proteins){
-                    return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da'
-                        + "</br>Proteins: "+self.proteins;
+                        + "Proteins: "+self.proteins;
                 }else{
-                    return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator>';
+                    return 'no protein information';
                 }
             });
         svg.call(rowTip);
