@@ -85,7 +85,7 @@ Polymer({
         var self = this;
         var rowTip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([-10, 60])
+            .offset([-10, 100])
             .html(function(d) {
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
