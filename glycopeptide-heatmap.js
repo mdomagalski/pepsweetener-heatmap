@@ -90,7 +90,6 @@ Polymer({
                 self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
                 self.$.ajax.generateRequest();
                 if (self.proteins){
-                    self.proteins = self.proteins.replace(',', ',\n');
                     return 'Mass: <peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da'
                         + "</br>Proteins: "+self.proteins;
                 }else{
