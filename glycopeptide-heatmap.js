@@ -101,7 +101,7 @@ Polymer({
             .data(peptides)
             .enter().append("text")
             .text(function (d) {
-                self.$.peptideMassCalc.peptide = d;
+                self.$.peptideMassCalc.peptide = d.toString();
                 return d+' ('+self.$.peptideMassCalc.mass+' Da)';
             })
             .attr("x", 0)
