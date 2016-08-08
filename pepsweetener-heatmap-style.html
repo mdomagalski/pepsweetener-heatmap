@@ -1,0 +1,91 @@
+<style is="custom-style">
+    body {
+        margin: 0;
+    }
+    svg {
+        overflow: scroll;
+    }
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+    }
+
+    .axis text {
+        font-family: sans-serif;
+        font-size: 11px;
+    }
+
+    rect {
+        stroke: silver;
+        stroke-width: 0px;
+        margin: 2px;
+    }
+
+    rect:hover {
+        stroke-width: 3px;
+    }
+
+    rect.cell-border {
+        stroke: #eee;
+        stroke-width:1px;
+    }
+
+    rect.cell-selected {
+        stroke: rgb(51,102,153);
+        stroke-width:0.5px;
+    }
+
+    rect.cell-hover {
+        stroke: #F00;
+        stroke-width:1px;
+    }
+
+    text.mono {
+        font-size: 10pt;
+        font-family: sans-serif;
+    }
+
+    text.axis {
+        fill: #000;
+    }
+
+    text.barTitle {
+        margin: 0;
+        padding: 0;
+        font-size: 14pt;
+    }
+
+    text.text-highlight {
+        fill: #c00;
+        font-weight: 600;
+    }
+
+    text.text-hover {
+        fill: #00C;
+    }
+
+    div.d3-tip {
+        position: absolute;
+        height: auto;
+        max-width: 60%;
+        font-size: 24px;
+        line-height: 40px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 1);
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+        line-height: 1;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+</style>

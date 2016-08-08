@@ -2,20 +2,28 @@
 <html>
 <head>
 
-    <meta charset="utf-8">
-    <title>glycopeptide-heatmap test</title>
-
-    <!-- Imports polyfill -->
-    <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <meta charset="UTF-8">
+    <title>pepsweetener-heatmap test</title>
 
     <!-- Imports custom element -->
-    <link rel="import" href="glycopeptide-heatmap.html">
+    <link rel="import" href="pepsweetener-heatmap.html">
 
 </head>
-<body>
+<body onload="(function() {
+        if ('registerElement' in document
+            && 'import' in document.createElement('link')
+            && 'content' in document.createElement('template')) {
+            // platform is good!
+        } else {
+            // polyfill the platform!
+            var e = document.createElement('script');
+            e.src = '../webcomponentsjs/webcomponents-lite.min.js';
+            document.body.appendChild(e);
+        }
+    })();">
 
     <!-- Test of glycopeptide-heatmap element -->
-    <glycopeptide-heatmap data='
+    <pepsweetener-heatmap data='
     {"map": [{"peptide": 1, "glycan": 2, "value": 1, "mass": 3000},
             {"peptide": 2, "glycan": 1, "value": 2, "mass": 3001},
             {"peptide": 2, "glycan": 3, "value": 1, "mass": 3001},
@@ -24,7 +32,7 @@
             {"peptide": 6, "glycan": 6, "value": 6, "mass": 3005}],
      "peptides": ["VNQCDR", "KVSQEILELLNTTTAK", "EIIYPNASLLIQ", "NNSIVKSITV", "SANRSDPVTLDVLYGPDTP", "CQANNSASGHSRTTVKTIT"],
      "glycans": ["Hex:3|HexNAc:3", "Hex:3|S:1|HexNAc:5", "Hex:5|HexNAc:1|NeuGc:2", "Hex:4|dHex:2|HexNAc:5", "Hex:4|Pen:1|HexNAc:2", "Hex:6|dHex:1|HexNAc:2"]}'>
-    </glycopeptide-heatmap>
+    </pepsweetener-heatmap>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-# glycopeptide-heatmap
+# pepsweetener-heatmap
 
 > Element generating the heatmap, this accepts json with the following structure:
 > {mass: Number (query mass), data: {'peptides':[String,...], 'glycans': [String,...], 
@@ -18,13 +18,13 @@
 2. Import custom element:
 
     ```html
-    <link rel="import" href="bower_components/glycopeptide-heatmap/glycopeptide-heatmap.html">
+    <link rel="import" href="bower_components/pepsweetener-heatmap/pepsweetener-heatmap.html">
     ```
 
 3. Start using it!
 
     ```html
-    <glycopeptide-heatmap></glycopeptide-heatmap>
+    <pepsweetener-heatmap></pepsweetener-heatmap>
     ```
 
 ## Options
@@ -52,6 +52,8 @@ Method                    | Parameters   | Returns     | Description
 `createColumnLabels()`    | None.        | Nothing.    | Generate labels
 `createCardsAndBar()`     | None.        | Nothing.    | Generate chart tiles and score bar
 `sortBySequenceAndComposition()`| None.  | Nothing.    | Sorting function
+`sortByMass()`            | None.  | Nothing.    | Sorting function
+`sortByPpm()`             | None.  | Nothing.    | Sorting function
 
 
 ## Development
@@ -70,15 +72,11 @@ In order to run it locally you'll need to fetch some dependencies and a basic se
     $ bower install
     ```
 
-3. Start development server and open `http://localhost:8080/components/glycopeptide-heatmap/`.
+3. Start development server and open `http://localhost:8080/components/pepsweetener-heatmap/`.
 
     ```sh
     $ polyserve
     ```
-
-## History
-
-For detailed changelog, check [Releases](https://bitbucket.org/sib-pig/glycopeptide-heatmap/releases).
 
 ## License
 
