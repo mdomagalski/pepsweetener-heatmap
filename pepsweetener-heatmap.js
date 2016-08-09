@@ -90,7 +90,7 @@ Polymer({
                 self.$.ajax.generateRequest();
                 if (self.proteins){
                     return d+' (<peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da)'+
-                    '</br>Proteins: '+self.proteins;
+                        '</br>Proteins: '+self.proteins;
                 }else{
                     return 'no protein information';
                 }
@@ -102,6 +102,12 @@ Polymer({
             .enter().append("text")
             .text(function (d) {
                 self.$.peptideMassCalc.peptide = d.toString();
+                var modifications = d.match(/[A-Z][a-z]/g);
+                if (modifications){
+                    for (var mod in modifications){
+                        d = d.replace(modifications[mod], modifications[mod].toLowerCase());
+                    }
+                }
                 return d+' ('+self.$.peptideMassCalc.mass+' Da)';
             })
             .attr("x", 0)
@@ -171,7 +177,14 @@ Polymer({
             .offset([-10, 100])
             .html(function(d) {
                 d.mass = Number(d.mass);
-                return self.data.peptides[d.peptide-1]+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
+                var peptide = self.data.peptides[d.peptide-1];
+                var modifications = peptide.match(/[A-Z][a-z]/g);
+                if (modifications){
+                    for (var mod in modifications){
+                        peptide= peptide.replace(modifications[mod], modifications[mod].toLowerCase());
+                    }
+                }
+                return peptide+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
             });
         svg.call(cardTip);
 
