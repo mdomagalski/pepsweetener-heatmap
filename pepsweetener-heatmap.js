@@ -105,7 +105,8 @@ Polymer({
                 var modifications = d.match(/[A-Z][a-z]/g);
                 if (modifications){
                     for (var mod in modifications){
-                        d = d.replace(modifications[mod], modifications[mod].toLowerCase());
+                        d = d.replace(modifications[mod], '{'+modifications[mod].toLowerCase()+'}');
+                        d = d.replace('}{', ',');
                     }
                 }
                 return d+' ('+self.$.peptideMassCalc.mass+' Da)';
@@ -181,7 +182,8 @@ Polymer({
                 var modifications = peptide.match(/[A-Z][a-z]/g);
                 if (modifications){
                     for (var mod in modifications){
-                        peptide= peptide.replace(modifications[mod], modifications[mod].toLowerCase());
+                        peptide = peptide.replace(modifications[mod], '{'+modifications[mod].toLowerCase()+'}');
+                        peptide = peptide.replace('}{',',');
                     }
                 }
                 return peptide+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
