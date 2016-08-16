@@ -25,7 +25,7 @@ Polymer({
                 height = (this.gridSize*this.data.peptides.length)+30;
 
             var maxPepLength = 0;
-            this.data.peptides.forEach(function(pep){if(pep.length>maxPepLength){maxPepLength=pep.length}}, this);
+            this.data.peptides.forEach(function(pep){if(pep.length>maxPepLength){maxPepLength=pep.replace(/[A-Z]{1,3}[0-6]?[a-z]+/g, 'XXX').length}}, this);
             var left = Math.max((this.margin.left + (maxPepLength*9) + 130),280);
             var maxGlycanLength = 0;
             this.data.glycans.forEach(function(glycan){if(glycan.length>maxGlycanLength){maxGlycanLength=glycan.length}}, this);
@@ -102,11 +102,10 @@ Polymer({
             .enter().append("text")
             .text(function (d) {
                 self.$.peptideMassCalc.peptide = d.toString();
-                var modifications = d.match(/[A-Z][a-z]/g);
+                var modifications = d.match(/[A-Z]{1,3}[0-6]?[a-z]+/g);
                 if (modifications){
                     for (var mod in modifications){
-                        d = d.replace(modifications[mod], '{'+modifications[mod].toLowerCase()+'}');
-                        d = d.replace('}{', ',');
+                        d = d.replace(modifications[mod], modifications[mod].toLowerCase().substring(0,2));
                     }
                 }
                 return d+' ('+self.$.peptideMassCalc.mass+' Da)';
@@ -179,11 +178,10 @@ Polymer({
             .html(function(d) {
                 d.mass = Number(d.mass);
                 var peptide = self.data.peptides[d.peptide-1];
-                var modifications = peptide.match(/[A-Z][a-z]/g);
+                var modifications = peptide.match(/[A-Z]{1,3}[0-6]?[a-z]+/g);
                 if (modifications){
                     for (var mod in modifications){
-                        peptide = peptide.replace(modifications[mod], '{'+modifications[mod].toLowerCase()+'}');
-                        peptide = peptide.replace('}{',',');
+                        peptide = peptide.replace(modifications[mod], modifications[mod].toLowerCase().substring(0,2));
                     }
                 }
                 return peptide+" + "+self.data.glycans[d.glycan-1]+" ("+d.mass.toFixed(4)+" Da)"
@@ -205,7 +203,6 @@ Polymer({
 
             })
             .on("mouseout", function(d){
-                //d3.select(this).classed("cell-hover",false);
                 cardTip.hide(d);
             })
             .on("click",function (d) {
