@@ -49,6 +49,8 @@ Polymer({
     _dataChanged: function(newValue) {
         var svg = d3.select(this).select("#chart").select("svg").remove();
         this.$.sorting.querySelector('paper-menu').selected=0;
+        this.$.sortContainer.setAttribute("disabled", "true");
+        this.$.comment.setAttribute("disabled", "true");
         this.$.fragmenterContainer.setAttribute("disabled", "true");
         if (newValue){
             this.attached();
