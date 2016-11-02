@@ -47,10 +47,10 @@ Polymer({
         this.formatChartDescription();
     },
     _dataChanged: function(newValue) {
+        var svg = d3.select(this).select("#chart").select("svg").remove();
+        this.$.sorting.querySelector('paper-menu').selected=0;
+        this.$.fragmenterContainer.setAttribute("disabled", "true");
         if (newValue){
-            var svg = d3.select(this).select("#chart").select("svg").remove();
-            this.$.sorting.querySelector('paper-menu').selected=0;
-            this.$.fragmenterContainer.setAttribute("disabled", "true");
             this.attached();
         }
     },
