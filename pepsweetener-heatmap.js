@@ -88,11 +88,10 @@ Polymer({
             .attr('class', 'd3-tip')
             .offset([-10, 300])
             .html(function(d) {
-                self.$.ajax.url = "http://129.194.71.205:9000/proteins/"+d;
+                self.$.ajax.url = "http://glycoproteome.expasy.org/api/database/hget/pep2prot/"+d;
                 self.$.ajax.generateRequest();
                 if (self.proteins){
-                    return d+' (<peptide-mass-calculator decimals=4 peptide="'+d+'"></peptide-mass-calculator> Da)'+
-                        '</br>Proteins: '+self.proteins;
+                    return d+ '</br>Proteins: '+self.proteins;
                 }else{
                     return 'no protein information';
                 }
@@ -395,7 +394,7 @@ Polymer({
     },
     handleResponse: function(request) {
         response = request.detail.response;
-        this.proteins = response.map;
+        this.proteins = response.hget;
     },
     handleErrorResponse: function(request) {
         this.proteins = '';
