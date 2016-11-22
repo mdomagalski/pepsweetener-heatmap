@@ -39,6 +39,8 @@ Polymer({
                 .append("g").attr("id", "main")
                 .attr("transform", "translate(" + left + "," + top + ")");
 
+            d3.select(this).select("#chart").select("svg")
+                .append("text").text("Match accuracy (ppm)").attr("x", 65).attr("y", 160)
             this.createRowLabels();
             this.createColumnLabels();
             this.createCardsAndBar();
@@ -163,7 +165,6 @@ Polymer({
         bar = d3.select(this).select("#chart").select("svg").append("g").attr("id", "colorbar");
         var svg = d3.select(this).select("#chart").select("svg").select("#main");
 
-        svg.append("text").text("Match accuracy (ppm)").attr("x", -235).attr("y", -100);
         var cards = svg.selectAll(".glycopeptide")
             .data(this.data.map, function(d) {return d.peptide+':'+d.glycan;});
         var gridSize = this.gridSize;
