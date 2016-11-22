@@ -50,7 +50,6 @@ Polymer({
         var svg = d3.select(this).select("#chart").select("svg").remove();
         this.$.sorting.querySelector('paper-menu').selected=0;
         this.$.sortContainer.setAttribute("disabled", "true");
-        this.$.comment.setAttribute("disabled", "true");
         this.$.fragmenterContainer.setAttribute("disabled", "true");
         if (newValue){
             this.attached();
@@ -69,10 +68,8 @@ Polymer({
         if(this.data){
             if(this.data.map.length!=0){
                 this.$.sortContainer.removeAttribute("disabled");
-                this.$.comment.removeAttribute("disabled");
             }else{
                 this.$.sortContainer.setAttribute("disabled", "true");
-                this.$.comment.setAttribute("disabled", "true");
             }
 
         }
@@ -162,12 +159,12 @@ Polymer({
         colorbar = Colorbar(0)
             .origin([55, 170])
             .scale(colorScale).barlength(200).thickness(14)
-            .orient("horizontal")
-            .title("Match accuracy (ppm)");
+            .orient("horizontal");
 
         bar = d3.select(this).select("#chart").select("svg").append("g").attr("id", "colorbar");
-
         var svg = d3.select(this).select("#chart").select("svg").select("#main");
+
+        svg.append("text").text("Match accuracy (ppm)").attr("x", -235).attr("y", -100);
         var cards = svg.selectAll(".glycopeptide")
             .data(this.data.map, function(d) {return d.peptide+':'+d.glycan;});
         var gridSize = this.gridSize;
